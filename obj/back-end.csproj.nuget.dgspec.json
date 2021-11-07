@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\GitHub\\back-end\\back-end.csproj": {}
+    "D:\\Projects\\Cryminals\\back-end\\back-end.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\GitHub\\back-end\\back-end.csproj": {
+    "D:\\Projects\\Cryminals\\back-end\\back-end.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GitHub\\back-end\\back-end.csproj",
+        "projectUniqueName": "D:\\Projects\\Cryminals\\back-end\\back-end.csproj",
         "projectName": "back-end",
-        "projectPath": "D:\\Projects\\GitHub\\back-end\\back-end.csproj",
+        "projectPath": "D:\\Projects\\Cryminals\\back-end\\back-end.csproj",
         "packagesPath": "C:\\Users\\igor\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GitHub\\back-end\\obj\\",
+        "outputPath": "D:\\Projects\\Cryminals\\back-end\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\igor\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,9 +40,25 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[8.0.27, )"
+            },
+            "Nethereum.Signer": {
+              "target": "Package",
+              "version": "[4.1.1, )"
+            },
+            "Nethereum.Util": {
+              "target": "Package",
+              "version": "[4.1.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

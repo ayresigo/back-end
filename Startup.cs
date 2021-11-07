@@ -16,6 +16,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace back_end
 {
@@ -28,11 +30,25 @@ namespace back_end
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAccountRepository, AccountSQLRepo>();
             services.AddScoped<IAccountService, AccountService>();
+
+            services.AddScoped<IUserAccountRepo, UserAccountRepo>();
+            services.AddScoped<ILoginService, LoginService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("dev",
+                builder =>
+                {
+                    // Not a permanent solution, but just trying to isolate the problem
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,7 +71,7 @@ namespace back_end
             }
 
             // app.UseMiddleware<ExceptionMiddleware>();
-
+            app.UseCors("dev");
             app.UseHttpsRedirection();
 
             app.UseRouting();

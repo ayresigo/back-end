@@ -79,3 +79,15 @@ D:\Projects\GitHub\back-end\obj\Debug\net5.0\back-end.dll
 D:\Projects\GitHub\back-end\obj\Debug\net5.0\ref\back-end.dll
 D:\Projects\GitHub\back-end\obj\Debug\net5.0\back-end.pdb
 D:\Projects\GitHub\back-end\obj\Debug\net5.0\back-end.genruntimeconfig.cache
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\NBitcoin.Secp256k1.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Nethereum.Hex.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Nethereum.Model.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Nethereum.RLP.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Nethereum.Signer.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Nethereum.Util.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Web.Cors.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Net.Http.Formatting.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Web.Http.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Web.Http.Cors.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
