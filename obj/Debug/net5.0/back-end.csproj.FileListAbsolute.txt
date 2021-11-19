@@ -91,3 +91,4 @@ D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Net.Http.Formatting.dll
 D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Web.Http.dll
 D:\Projects\Cryminals\back-end\bin\Debug\net5.0\System.Web.Http.Cors.dll
 D:\Projects\Cryminals\back-end\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+D:\Projects\Cryminals\back-end\bin\Debug\net5.0\JWT.dll

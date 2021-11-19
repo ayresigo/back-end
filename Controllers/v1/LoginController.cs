@@ -23,7 +23,7 @@ namespace back_end.Controllers
 
 
         [HttpPost("checksign")]
-        public async Task<ActionResult<bool>> checkSignature([FromBody] MessageInputModel request)
+        public async Task<ActionResult<bool>> checkSignature([FromBody] SignatureInputModel request)
         {
             var login = await _loginService.checkSignature(request);
             if (login)

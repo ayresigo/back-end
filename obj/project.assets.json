@@ -24,6 +24,18 @@
           "lib/netstandard2.0/Google.Protobuf.dll": {}
         }
       },
+      "JWT/8.6.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/net5.0/JWT.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/JWT.dll": {}
+        }
+      },
       "K4os.Compression.LZ4/1.2.6": {
         "type": "package",
         "dependencies": {
@@ -1913,6 +1925,35 @@
         "lib/netstandard2.0/Google.Protobuf.dll",
         "lib/netstandard2.0/Google.Protobuf.pdb",
         "lib/netstandard2.0/Google.Protobuf.xml"
+      ]
+    },
+    "JWT/8.6.0": {
+      "sha512": "ACI73/Jw6hzDjgpMuAcp5nEmm5TrwK6Jgx/HGaeAKwYZyXiFZYbnGHpqTjZ7XsrorPhhdpSbWupwEUtKr14xlA==",
+      "type": "package",
+      "path": "jwt/8.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jwt.8.6.0.nupkg.sha512",
+        "jwt.nuspec",
+        "lib/net35/JWT.dll",
+        "lib/net35/JWT.pdb",
+        "lib/net35/JWT.xml",
+        "lib/net40/JWT.dll",
+        "lib/net40/JWT.pdb",
+        "lib/net40/JWT.xml",
+        "lib/net46/JWT.dll",
+        "lib/net46/JWT.pdb",
+        "lib/net46/JWT.xml",
+        "lib/net5.0/JWT.dll",
+        "lib/net5.0/JWT.pdb",
+        "lib/net5.0/JWT.xml",
+        "lib/netstandard1.3/JWT.dll",
+        "lib/netstandard1.3/JWT.pdb",
+        "lib/netstandard1.3/JWT.xml",
+        "lib/netstandard2.0/JWT.dll",
+        "lib/netstandard2.0/JWT.pdb",
+        "lib/netstandard2.0/JWT.xml"
       ]
     },
     "K4os.Compression.LZ4/1.2.6": {
@@ -6514,6 +6555,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "JWT >= 8.6.0",
       "Microsoft.AspNet.WebApi.Core >= 5.2.7",
       "Microsoft.AspNet.WebApi.Cors >= 5.2.7",
       "MySql.Data >= 8.0.27",
@@ -6561,6 +6603,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "JWT": {
+            "target": "Package",
+            "version": "[8.6.0, )"
+          },
           "Microsoft.AspNet.WebApi.Core": {
             "target": "Package",
             "version": "[5.2.7, )"

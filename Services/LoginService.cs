@@ -18,7 +18,7 @@ namespace back_end.Services
         {
             _userAccountRepo = userAccountRepository;
         }
-        public Task<bool> checkSignature(MessageInputModel request)
+        public Task<bool> checkSignature(SignatureInputModel request)
         {
             // Null Checks
             var addrValidator = new AddressUtil();

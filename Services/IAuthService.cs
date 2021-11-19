@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace back_end.Services
 {
-    public interface ILoginService
+    public interface IAuthService 
     {
-        Task<UserAccountViewModel> getAccount(string address);
+        Task<TokenViewModel> generateToken(TokenDataInputModel data, string secret);
+        Task<string> retrieveToken(TokenInputModel token);
         Task<bool> checkSignature(SignatureInputModel request);
+
     }
 }

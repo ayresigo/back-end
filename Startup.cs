@@ -1,4 +1,4 @@
-using APICatalogoJogos.Middleware;
+
 using back_end.Repositories;
 using back_end.Services;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +39,9 @@ namespace back_end
 
             services.AddScoped<IUserAccountRepo, UserAccountRepo>();
             services.AddScoped<ILoginService, LoginService>();
+
+            //services.AddScoped<IUserAccountRepo, UserAccountRepo>();
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddCors(options =>
             {

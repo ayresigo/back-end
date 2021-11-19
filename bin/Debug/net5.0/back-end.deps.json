@@ -33,6 +33,7 @@
     ".NETCoreApp,Version=v5.0": {
       "back-end/1.0.0": {
         "dependencies": {
+          "JWT": "8.6.0",
           "Microsoft.AspNet.WebApi.Core": "5.2.7",
           "Microsoft.AspNet.WebApi.Cors": "5.2.7",
           "MySql.Data": "8.0.27",
@@ -354,6 +355,20 @@
         },
         "compile": {
           "lib/netstandard2.0/Google.Protobuf.dll": {}
+        }
+      },
+      "JWT/8.6.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "runtime": {
+          "lib/net5.0/JWT.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/JWT.dll": {}
         }
       },
       "K4os.Compression.LZ4/1.2.6": {
@@ -3237,6 +3252,13 @@
       "sha512": "sha512-9AkodyGNmLI+wJJPbwpWLmh4BMHoXDQ9+8qvDPhQQi/BNsleqKMBn3OlyLwC6CALwan2kc5+Cenb8fJSITX3nQ==",
       "path": "google.protobuf/3.14.0",
       "hashPath": "google.protobuf.3.14.0.nupkg.sha512"
+    },
+    "JWT/8.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ACI73/Jw6hzDjgpMuAcp5nEmm5TrwK6Jgx/HGaeAKwYZyXiFZYbnGHpqTjZ7XsrorPhhdpSbWupwEUtKr14xlA==",
+      "path": "jwt/8.6.0",
+      "hashPath": "jwt.8.6.0.nupkg.sha512"
     },
     "K4os.Compression.LZ4/1.2.6": {
       "type": "package",

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "jgTzdc3o8vMN7eUFDh2Al+bPfCfuOBvvfACTqYFK94ohe8ENjOTej+zsgD0WvT65akt+bw34EgIHgbvM2a0qTw==",
+  "dgSpecHash": "SNIqctRqu1EEXDbyv6sOKZfIuREAtNh78S2RS4K64LfJrLpfIhxMuJKmp12+o4hae1hD1avPFv2j48JHjbrFuA==",
   "success": true,
   "projectFilePath": "D:\\Projects\\Cryminals\\back-end\\back-end.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\igor\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\igor\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",
+    "C:\\Users\\igor\\.nuget\\packages\\jwt\\8.6.0\\jwt.8.6.0.nupkg.sha512",
     "C:\\Users\\igor\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
     "C:\\Users\\igor\\.nuget\\packages\\k4os.compression.lz4.streams\\1.2.6\\k4os.compression.lz4.streams.1.2.6.nupkg.sha512",
     "C:\\Users\\igor\\.nuget\\packages\\k4os.hash.xxhash\\1.0.6\\k4os.hash.xxhash.1.0.6.nupkg.sha512",
