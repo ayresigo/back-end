@@ -6570,11 +6570,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\Cryminals\\back-end\\back-end.csproj",
+      "projectUniqueName": "D:\\Projects\\GitHub\\back-end\\back-end.csproj",
       "projectName": "back-end",
-      "projectPath": "D:\\Projects\\Cryminals\\back-end\\back-end.csproj",
+      "projectPath": "D:\\Projects\\GitHub\\back-end\\back-end.csproj",
       "packagesPath": "C:\\Users\\igor\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\Cryminals\\back-end\\obj\\",
+      "outputPath": "D:\\Projects\\GitHub\\back-end\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\igor\\AppData\\Roaming\\NuGet\\NuGet.Config",

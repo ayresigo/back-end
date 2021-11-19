@@ -2,6 +2,7 @@
 using back_end.ViewModel;
 using JWT;
 using JWT.Algorithms;
+using JWT.Builder;
 using JWT.Exceptions;
 using JWT.Serializers;
 using Nethereum.Signer;
@@ -49,12 +50,17 @@ namespace back_end.Services
             //payload = data
             //signature
 
+            var exp = 0;
+            if (data.exp == 0) exp = 86400;
+            else exp = data.exp;
+
             var payload = new Dictionary<string, object>
                 {
-                    { "accountId", data.accountId },
-                    { "address", data.signatureReq.Address },
-                    { "message", data.signatureReq.Message },
-                    { "signature", data.signatureReq.Signature }
+                    { "id", data.id },
+                    { "address", data.address },
+                    { "signature", data.signature },
+                    { "iat", DateTimeOffset.Now.ToUnixTimeSeconds() },
+                    { "exp", DateTimeOffset.Now.ToUnixTimeSeconds() + exp },
                 };
 
             var token = encoder.Encode(payload, secret);
@@ -67,26 +73,24 @@ namespace back_end.Services
 
 
         public Task<string> retrieveToken(TokenInputModel token)
-        {
+        {            
             try
             {
-                IJsonSerializer serializer = new JsonNetSerializer();
-                IDateTimeProvider provider = new UtcDateTimeProvider();
-                IJwtValidator validator = new JwtValidator(serializer, provider);
-                IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
-                IJwtAlgorithm algorithm = new HMACSHA256Algorithm(); // symmetric
-                IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
+                var json = JwtBuilder.Create()
+                     .WithAlgorithm(new HMACSHA256Algorithm()) // symmetric
+                     .WithSecret(_secret)
+                     .MustVerifySignature()
+                     .Decode(token.Token);
 
-                var json = decoder.Decode(token.Token, _secret, verify: true);
-                return Task.FromResult(json) ;
+                return Task.FromResult(json);
             }
-            catch (TokenExpiredException er)
+            catch (TokenExpiredException)
             {
-                return Task.FromResult(er.Message);
+                throw new TokenExpiredException("Token expirado");
             }
-            catch (SignatureVerificationException er)
+            catch (SignatureVerificationException)
             {
-                return Task.FromResult(er.Message);
+                throw new SignatureVerificationException("Verificação da assinatura falhou.");
             }
         }
     }

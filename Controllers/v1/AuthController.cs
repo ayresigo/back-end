@@ -1,6 +1,7 @@
 ﻿using back_end.InputModel;
 using back_end.Services;
 using back_end.ViewModel;
+using JWT.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
@@ -23,18 +24,45 @@ namespace back_end.Controllers.v1
             _authService = authService;
         }
 
-        [HttpPost("tokenGen")]
-        public async Task<ActionResult<TokenViewModel>> generateToken([FromBody] TokenDataInputModel data, string secret = _secret)
+        [HttpPost("generateToken")]
+        public async Task<ActionResult<TokenViewModel>> generateToken([FromBody] TokenDataInputModel data)
         {
-            var token = await _authService.generateToken(data, secret);
+            var token = await _authService.generateToken(data, _secret);
             return Ok(token);
         }
 
-        [HttpPost("retrieveToken")]
-        public async Task<ActionResult> retrieveToken([FromBody] TokenInputModel token, string secret = _secret)
+        [HttpGet("checkToken")]
+        public async Task<ActionResult> retrieveToken([FromQuery]string token)
         {
-            var data = await _authService.retrieveToken(token);
-            return Ok(data);
+            TokenInputModel _token = new TokenInputModel
+            {
+                Token = token
+            };
+         
+            try
+            {
+                var data = await _authService.retrieveToken(_token);
+                return Ok(data);
+            }
+            catch (TokenExpiredException err)
+            {
+                return Unauthorized(err.Message);
+            }
+            catch (SignatureVerificationException err)
+            {
+                return Unauthorized(err.Message);
+            }            
+        }
+
+        [HttpPost("checkSignature")]
+        public async Task<ActionResult<bool>> checkSignature([FromBody]SignatureInputModel request)
+        {
+            var login = await _authService.checkSignature(request);
+            if (login)
+                return Ok();
+
+            else
+                return BadRequest();
         }
     }
 }
