@@ -49,6 +49,13 @@ namespace back_end.Controllers.v1
             if (checkAddress(address))
             {
                 var account = await _accountService.getAccount(address);
+                if (account.username != "null")
+                {
+                    byte[] data = Convert.FromBase64String(account.username);
+                    string realUsername = Encoding.UTF8.GetString(data);
+                    account.username = realUsername;
+                }                
+
                 if (account == null) return NoContent(); else return Ok(account);
             }
             else return BadRequest();
