@@ -33,11 +33,10 @@ namespace back_end
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddScoped<IAccountRepository, AccountSQLRepo>();
-            services.AddScoped<IAccountService, AccountService>();
-
+        {            
             services.AddScoped<IUserAccountRepo, UserAccountRepo>();
+            services.AddScoped<IAccountRepo, AccountRepo>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ILoginService, LoginService>();
 
             //services.AddScoped<IUserAccountRepo, UserAccountRepo>();
