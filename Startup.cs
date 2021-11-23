@@ -1,6 +1,9 @@
 
 using back_end.Repositories;
+using back_end.Repositories.Classes;
+using back_end.Repositories.Interface;
 using back_end.Services;
+using back_end.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,7 +40,8 @@ namespace back_end
             services.AddScoped<IUserAccountRepo, UserAccountRepo>();
             services.AddScoped<IAccountRepo, AccountRepo>();
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ICharacterMockService, CharacterMockService>();
+            services.AddScoped<ICharacterRepo, CharacterRepo>();
 
             //services.AddScoped<IUserAccountRepo, UserAccountRepo>();
             services.AddScoped<IAuthService, AuthService>();

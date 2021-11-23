@@ -17,8 +17,6 @@ namespace back_end.Repositories
         {
             conn = new MySqlConnection(config.GetConnectionString("Default"));
         }
-
-
         public async Task<bool> createAccount(string address)
         {
             var query = $"INSERT INTO `accounts`(`address`) VALUES ('{address}')";

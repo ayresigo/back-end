@@ -1,5 +1,6 @@
 ﻿using back_end.Entities;
 using back_end.InputModel;
+using back_end.ViewModel;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace back_end.Repositories
     {
         public Task<Account> getAccount(string address);
         public Task<bool> editUsername(string address, string username);
-
         public Task<bool> createAccount(string address);
         
     }
