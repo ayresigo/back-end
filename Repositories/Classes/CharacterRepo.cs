@@ -65,7 +65,8 @@ namespace back_end.Repositories.Classes
                     health = (int)sqlDataReader["health"],
                     stamina = (int)sqlDataReader["stamina"],
                     job = (string)sqlDataReader["job"],
-                    alignment = (string)sqlDataReader["alignment"]
+                    alignment = (string)sqlDataReader["alignment"],
+                    status = (string)sqlDataReader["status"]
                 };
             }
 
@@ -97,7 +98,8 @@ namespace back_end.Repositories.Classes
                     health = (int)sqlDataReader["health"],
                     stamina = (int)sqlDataReader["stamina"],
                     job = (string)sqlDataReader["job"],
-                    alignment = (string)sqlDataReader["alignment"]
+                    alignment = (string)sqlDataReader["alignment"],
+                    status = (string)sqlDataReader["status"]
                 });
             }
 

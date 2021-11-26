@@ -19,5 +19,6 @@ namespace back_end.ViewModel
         public int stamina { get; set; }
         public string job { get; set; }
         public string alignment { get; set; }
+        public string status { get; set; }
     }
 }

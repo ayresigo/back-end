@@ -116,7 +116,8 @@ namespace back_end.Services
                 health = character.health,
                 stamina = character.stamina,
                 job = character.job,
-                alignment = character.alignment
+                alignment = character.alignment,
+                status = character.status
             };
         }
 
