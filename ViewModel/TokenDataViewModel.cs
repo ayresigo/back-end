@@ -16,6 +16,7 @@ namespace back_end.ViewModel
         public int id { get; set; }
         public string address { get; set; }
         public Signature signature { get; set; }
+        public int iat { get; set; }
         public int exp { get; set; }
     }
 }

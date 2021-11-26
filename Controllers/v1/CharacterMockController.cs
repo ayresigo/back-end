@@ -18,10 +18,12 @@ namespace back_end.Controllers.v1
     public class CharacterMockController : ControllerBase
     {
         private readonly ICharacterMockService _characterMockService;
+        private readonly ITimeService _timeService;
 
-        public CharacterMockController(ICharacterMockService characterMockService)
+        public CharacterMockController(ICharacterMockService characterMockService, ITimeService timeService)
         {
             _characterMockService = characterMockService;
+            _timeService = timeService;
         }
 
         [HttpPost("addCharacter")]
@@ -45,17 +47,24 @@ namespace back_end.Controllers.v1
         }
 
         [HttpGet("getCharacter")]
-        public async Task<CharacterViewModel> getCharacter([FromQuery]int characterId)
+        public async Task<CharacterViewModel> getCharacter([FromQuery] int characterId)
         {
             return await _characterMockService.getCharacter(characterId);
         }
 
         [HttpGet("getCharacters")]
-        public async Task<List<CharacterViewModel>> getCharacters ([FromQuery] int accountId)
+        public async Task<List<CharacterViewModel>> getCharacters([FromQuery] int accountId)
         {
             List<CharacterViewModel> characters = await _characterMockService.getCharacters(accountId);
             return characters;
-            
+
+        }
+
+        [HttpPatch("editCharacterStatus")]
+        public async Task editStatus([FromQuery] int characterId, int status = 1, long duration = -1)
+        {
+            var start = await _timeService.getTime();
+            await _characterMockService.editStatus(characterId, status, duration, start);
         }
 
         [HttpGet("createCharacter")]

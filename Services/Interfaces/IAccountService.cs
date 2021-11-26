@@ -11,7 +11,7 @@ namespace back_end.Services
     {
         public Task<AccountViewModel> getAccount(string address);
         public Task<bool> editUsername(string address, string username);
-
         public Task<bool> createAccount(string address);
+
     }
 }

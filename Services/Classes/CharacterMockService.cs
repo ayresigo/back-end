@@ -117,7 +117,9 @@ namespace back_end.Services
                 stamina = character.stamina,
                 job = character.job,
                 alignment = character.alignment,
-                status = character.status
+                status = character.status,
+                statusTime = character.statusTime,
+                statusChanged = character.statusChanged
             };
         }
 
@@ -125,6 +127,11 @@ namespace back_end.Services
         {
             var characters = await _characterRepo.getCharacters(id);
             return characters;
+        }
+
+        public async Task editStatus(int id, int status = 1, long duration = -1, long start = 0)
+        {
+            await _characterRepo.editStatus(id, status, duration, start);
         }
     }
 }

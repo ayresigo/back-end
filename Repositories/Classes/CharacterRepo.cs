@@ -39,6 +39,16 @@ namespace back_end.Repositories.Classes
             conn?.Dispose();
         }
 
+        public async Task editStatus(int id, int status = 1, long duration = -1, long start = 0)
+        {
+            var query = $"UPDATE `criminals` SET `status`='{status}',`statusTime`='{duration}',`statusChanged`='{start}' WHERE id='{id}'";
+
+            await conn.OpenAsync();
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+            await conn.CloseAsync();
+        }
+
         public async Task<CharacterViewModel> getCharacter(int id)
         {
 
@@ -66,7 +76,9 @@ namespace back_end.Repositories.Classes
                     stamina = (int)sqlDataReader["stamina"],
                     job = (string)sqlDataReader["job"],
                     alignment = (string)sqlDataReader["alignment"],
-                    status = (string)sqlDataReader["status"]
+                    status = (string)sqlDataReader["status"],
+                    statusTime = (long)sqlDataReader["statusTime"],
+                    statusChanged = (long)sqlDataReader["statusChanged"]
                 };
             }
 
@@ -99,7 +111,9 @@ namespace back_end.Repositories.Classes
                     stamina = (int)sqlDataReader["stamina"],
                     job = (string)sqlDataReader["job"],
                     alignment = (string)sqlDataReader["alignment"],
-                    status = (string)sqlDataReader["status"]
+                    status = (string)sqlDataReader["status"],
+                    statusTime = (long)sqlDataReader["statusTime"],
+                    statusChanged = (long)sqlDataReader["statusChanged"]
                 });
             }
 

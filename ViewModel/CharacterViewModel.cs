@@ -20,5 +20,7 @@ namespace back_end.ViewModel
         public string job { get; set; }
         public string alignment { get; set; }
         public string status { get; set; }
+        public long statusTime { get; set; }
+        public long statusChanged { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace back_end.Services
     public interface IAuthService 
     {
         Task<TokenViewModel> generateToken(TokenDataInputModel data, string secret);
-        Task<string> retrieveToken(TokenInputModel token);
+        Task<TokenDataViewModel> retrieveToken(TokenInputModel token);
         Task<bool> checkSignature(SignatureInputModel request);
 
     }

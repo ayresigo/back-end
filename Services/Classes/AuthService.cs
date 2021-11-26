@@ -1,4 +1,5 @@
 ﻿using back_end.InputModel;
+using back_end.Services.Interfaces;
 using back_end.ViewModel;
 using JWT;
 using JWT.Algorithms;
@@ -7,6 +8,7 @@ using JWT.Exceptions;
 using JWT.Serializers;
 using Nethereum.Signer;
 using Nethereum.Util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,13 @@ namespace back_end.Services
 {
     public class AuthService : IAuthService
     {
+        private readonly ICheckInputs _checkInputs;
+
+        public AuthService(ICheckInputs checkInputs)
+        {
+            _checkInputs = checkInputs;
+        }
+
         // generate jwt
         const string _secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
 
@@ -25,11 +34,9 @@ namespace back_end.Services
 
         public Task<bool> checkSignature(SignatureInputModel request)
         {
-            // Null Checks
             var addrValidator = new AddressUtil();
-            if (request == null || string.IsNullOrEmpty(request.Message) || string.IsNullOrEmpty(request.Signature)
-                || addrValidator.IsAnEmptyAddress(request.Address)
-                || !addrValidator.IsValidEthereumAddressHexFormat(request.Address))
+            // Null Checks
+            if (!_checkInputs.checkAddress(request.Address))
                 return Task.FromResult(false);
 
             // Check for validity
@@ -72,7 +79,7 @@ namespace back_end.Services
         }
 
 
-        public Task<string> retrieveToken(TokenInputModel token)
+        public Task<TokenDataViewModel> retrieveToken(TokenInputModel token)
         {            
             try
             {
@@ -81,8 +88,7 @@ namespace back_end.Services
                      .WithSecret(_secret)
                      .MustVerifySignature()
                      .Decode(token.Token);
-
-                return Task.FromResult(json);
+                return Task.FromResult(JsonConvert.DeserializeObject<TokenDataViewModel>(json));
             }
             catch (TokenExpiredException)
             {
