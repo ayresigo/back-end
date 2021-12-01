@@ -7,7 +7,7 @@ namespace back_end.ViewModel
 {
     public class RobberyLogViewModel
     {
-        //public int robberyId { get; set; }
+        public int robberyUniqueId { get; set; }
         public int senderId { get; set; }
         public int characterId { get; set; }
         public int robberyId { get; set; }
@@ -20,7 +20,10 @@ namespace back_end.ViewModel
         public long endDate { get; set; }
         public int endHealth { get; set; }
         public int endMoney { get; set; }
-        public int robberyStatus { get; set; }
+        public int endStamina { get; set; }
+        public CharacterStatusViewModel charStatus { get; set; }
+        public long charStatusDuration { get; set; }
+        public string robberyStatus { get; set; }
         public int serverStatus { get; set; }
     }
 }

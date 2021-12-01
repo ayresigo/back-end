@@ -16,10 +16,12 @@ namespace back_end.ViewModel
         public int power { get; set; }
         public int moneyRatio { get; set; }
         public int health { get; set; }
+        public int currentHealth { get; set; }
         public int stamina { get; set; }
+        public int currentStamina { get; set; }
         public string job { get; set; }
         public string alignment { get; set; }
-        public string status { get; set; }
+        public CharacterStatusViewModel status { get; set; }
         public long statusTime { get; set; }
         public long statusChanged { get; set; }
     }

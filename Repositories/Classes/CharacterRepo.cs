@@ -23,8 +23,8 @@ namespace back_end.Repositories.Classes
         public async Task<bool> addCharacter(CharacterInputModel character, string address)
         {
             var owner = await _accountRepo.getAccount(address);
-            var query = $"INSERT INTO `criminals`( `fk_owner_id`, `name`, `gender`, `avatar`, `rarity`, `power`, `moneyRatio`, `health`, `stamina`, `job`, `alignment`) " +
-                $"VALUES ('{owner.Id}','{character.name}','{character.gender}','{character.avatar}','{character.rarity}','{character.power}','{character.moneyRatio}','{character.health}','{character.stamina}','{character.job}','{character.alignment}')";
+            var query = $"INSERT INTO `criminals`( `fk_owner_id`, `name`, `gender`, `avatar`, `rarity`, `power`, `moneyRatio`, `health`, `currentHealth`, `stamina`, `currentStamina`, `job`, `alignment`) " +
+                $"VALUES ('{owner.Id}','{character.name}','{character.gender}','{character.avatar}','{character.rarity}','{character.power}','{character.moneyRatio}','{character.health}','{character.health}','{character.stamina}','{character.stamina}','{character.job}','{character.alignment}')";
 
             await conn.OpenAsync();
             MySqlCommand sqlCommand = new MySqlCommand(query, conn);
@@ -49,6 +49,40 @@ namespace back_end.Repositories.Classes
             await conn.CloseAsync();
         }
 
+        public async Task<CharacterStatusViewModel> getStatus (int id)
+        {
+            CharacterStatusViewModel status = null;
+            var query = $"SELECT * FROM `character_status` WHERE `id` = '{id}'";
+            var closeConnection = false;
+
+            if(conn.State != System.Data.ConnectionState.Open)
+            {
+                closeConnection = true;
+                await conn.OpenAsync();
+            }            
+
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+
+            while (sqlDataReader.Read())
+            {
+                status = new CharacterStatusViewModel
+                {
+                    id = (int)sqlDataReader["id"],
+                    name = (string)sqlDataReader["name"],
+                    icon = (string)sqlDataReader["icon"],
+                    icon_color = (string)sqlDataReader["icon_color"],
+                    background_color = (string)sqlDataReader["background_color"],
+                    description = (string)sqlDataReader["description"],
+                };
+            }
+
+            if(closeConnection)
+                await conn.CloseAsync();
+
+            return status;
+        }
+
         public async Task<CharacterViewModel> getCharacter(int id)
         {
 
@@ -62,6 +96,7 @@ namespace back_end.Repositories.Classes
 
             while (sqlDataReader.Read())
             {
+                var status = await getStatus((int)sqlDataReader["fk_status_id"]);
                 character = new CharacterViewModel
                 {
                     id = (int)sqlDataReader["id"],
@@ -73,10 +108,12 @@ namespace back_end.Repositories.Classes
                     power = (int)sqlDataReader["power"],
                     moneyRatio = (int)sqlDataReader["moneyRatio"],
                     health = (int)sqlDataReader["health"],
+                    currentHealth = (int)sqlDataReader["currentHealth"],
                     stamina = (int)sqlDataReader["stamina"],
+                    currentStamina = (int)sqlDataReader["currentStamina"],
                     job = (string)sqlDataReader["job"],
                     alignment = (string)sqlDataReader["alignment"],
-                    status = (string)sqlDataReader["status"],
+                    status = status,
                     statusTime = (long)sqlDataReader["statusTime"],
                     statusChanged = (long)sqlDataReader["statusChanged"]
                 };
@@ -89,7 +126,7 @@ namespace back_end.Repositories.Classes
         public async Task<List<CharacterViewModel>> getCharacters(int id)
         {
             var characters = new List<CharacterViewModel>();
-            var query = $"SELECT * FROM `criminals` WHERE `fk_owner_id`='{id}' ORDER BY `id`";
+            var query = $"SELECT * FROM `criminals` WHERE `fk_owner_id`='{id}'";
 
             await conn.OpenAsync();
             MySqlCommand sqlCommand = new MySqlCommand(query, conn);
@@ -97,6 +134,7 @@ namespace back_end.Repositories.Classes
 
             while (sqlDataReader.Read())
             {
+                var status = await getStatus((int)sqlDataReader["fk_status_id"]);
                 characters.Add(new CharacterViewModel
                 {
                     id = (int)sqlDataReader["id"],
@@ -108,10 +146,12 @@ namespace back_end.Repositories.Classes
                     power = (int)sqlDataReader["power"],
                     moneyRatio = (int)sqlDataReader["moneyRatio"],
                     health = (int)sqlDataReader["health"],
+                    currentHealth = (int)sqlDataReader["currentHealth"],
                     stamina = (int)sqlDataReader["stamina"],
+                    currentStamina = (int)sqlDataReader["currentStamina"],
                     job = (string)sqlDataReader["job"],
                     alignment = (string)sqlDataReader["alignment"],
-                    status = (string)sqlDataReader["status"],
+                    status = status,
                     statusTime = (long)sqlDataReader["statusTime"],
                     statusChanged = (long)sqlDataReader["statusChanged"]
                 });

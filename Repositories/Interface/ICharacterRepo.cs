@@ -13,5 +13,6 @@ namespace back_end.Repositories.Interface
         public Task<CharacterViewModel> getCharacter(int id);
         public Task<List<CharacterViewModel>> getCharacters(int id);
         public Task editStatus(int id, int status, long duration, long start);
+        public Task<CharacterStatusViewModel> getStatus(int id);
     }
 }

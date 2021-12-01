@@ -29,6 +29,13 @@ namespace back_end.Controllers.v1
             _timeService = timeService;
         }
 
+        [HttpGet("getCharacterRobberiesLog")]
+        public async Task<List<RobberyLogViewModel>> getCharacterRobberiesLog([FromQuery] int characterId)
+        {
+            var log = await _robberyService.getCharacterRobberyLogs(characterId);
+            return log;
+        }
+
         [HttpPost("startRobbery")]
         public async Task startRobbery([FromBody] StartRobberyInputModel req )
         {
@@ -59,8 +66,8 @@ namespace back_end.Controllers.v1
                     endDate = DateTimeOffset.Now.ToUnixTimeSeconds() + robbery.time,
                     endHealth = character.health,
                     endMoney = robbery.reward,
-                    robberyStatus = 1,
-                    serverStatus = 1
+                    //robberyStatus = 1,
+                    //serverStatus = 1
                 };
 
                 await _characterMockService.editStatus(character.id, 2, robbery.time, await _timeService.getTime());

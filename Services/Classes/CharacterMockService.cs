@@ -113,8 +113,10 @@ namespace back_end.Services
                 rarity = character.rarity,
                 power = character.power,
                 moneyRatio = character.moneyRatio,
+                currentHealth = character.health,
                 health = character.health,
                 stamina = character.stamina,
+                currentStamina = character.stamina,
                 job = character.job,
                 alignment = character.alignment,
                 status = character.status,
@@ -132,6 +134,12 @@ namespace back_end.Services
         public async Task editStatus(int id, int status = 1, long duration = -1, long start = 0)
         {
             await _characterRepo.editStatus(id, status, duration, start);
+        }
+
+        public async Task<CharacterStatusViewModel> getStatus(int id)
+        {
+            var status = await _characterRepo.getStatus(id);
+            return status;
         }
     }
 }

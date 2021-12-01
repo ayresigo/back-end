@@ -1,4 +1,5 @@
 ﻿using back_end.Repositories.Interface;
+using back_end.Services.Interfaces;
 using back_end.ViewModel;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -12,10 +13,12 @@ namespace back_end.Repositories.Classes
     public class RobberyRepo : IRobberyRepo
     {
         private readonly MySqlConnection conn;
-        
-        public RobberyRepo (IConfiguration config)
+        private readonly ICharacterMockService _characterService;
+
+        public RobberyRepo(IConfiguration config, ICharacterMockService characterService)
         {
             conn = new MySqlConnection(config.GetConnectionString("Default"));
+            _characterService = characterService;
         }
 
         public async Task addLogs(RobberyLogViewModel log)
@@ -99,6 +102,97 @@ namespace back_end.Repositories.Classes
 
             await conn.CloseAsync();
             return robbery;
+        }
+
+        public async Task<List<RobberyLogViewModel>> getCharacterRobberyLogs(int characterId)
+        {
+            var robberyLog = new List<RobberyLogViewModel>();
+            var query = $"SELECT * FROM `robberies_logs` WHERE `fk_character_id` = '{characterId}'";
+
+            await conn.OpenAsync();
+
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+
+            while (sqlDataReader.Read())
+            {
+                robberyLog.Add(new RobberyLogViewModel
+                {
+                    robberyUniqueId = (int)sqlDataReader["id"],
+                    senderId = (int)sqlDataReader["fk_sender_id"],
+                    characterId = (int)sqlDataReader["fk_character_id"],
+                    robberyId = (int)sqlDataReader["fk_robbery_id"],
+                    participants = (int)sqlDataReader["participants"],
+                    startMoney = (int)sqlDataReader["start_money"],
+                    startStamina = (int)sqlDataReader["start_stamina"],
+                    startHealth = (int)sqlDataReader["start_health"],
+                    startRespect = (int)sqlDataReader["start_respect"],
+                    startDate = (int)sqlDataReader["start_date"],
+                    endDate = (int)sqlDataReader["end_date"],
+                    endHealth = (int)sqlDataReader["end_health"],
+                    endMoney = (int)sqlDataReader["end_money"],
+                    robberyStatus = (string)sqlDataReader["robbery_status"],
+                    serverStatus = (int)sqlDataReader["server_status"],
+                });
+            }
+
+            await conn.CloseAsync();
+            return robberyLog;
+        }
+
+        public async Task<RobberyLogViewModel> getCurrentRobbery(int characterId)
+        {
+            RobberyLogViewModel robberyLog = null;
+            var query = $"SELECT * FROM `robberies_logs` WHERE `robbery_status` = '{1}'";
+
+            await conn.OpenAsync();
+
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+
+            while (sqlDataReader.Read())
+            {
+                var status = await _characterService.getStatus((int)sqlDataReader["fk_char_end_status_id"]);
+                robberyLog = new RobberyLogViewModel
+                {
+                    robberyUniqueId = (int)sqlDataReader["id"],
+                    senderId = (int)sqlDataReader["fk_sender_id"],
+                    characterId = (int)sqlDataReader["fk_character_id"],
+                    robberyId = (int)sqlDataReader["fk_robbery_id"],
+                    participants = (int)sqlDataReader["participants"],
+                    startMoney = (int)sqlDataReader["start_money"],
+                    startStamina = (int)sqlDataReader["start_stamina"],
+                    startHealth = (int)sqlDataReader["start_health"],
+                    startRespect = (int)sqlDataReader["start_respect"],
+                    startDate = (int)sqlDataReader["start_date"],
+                    endDate = (int)sqlDataReader["end_date"],
+                    endHealth = (int)sqlDataReader["end_health"],
+                    endMoney = (int)sqlDataReader["end_money"],
+                    robberyStatus = (string)sqlDataReader["robbery_status"],
+                    serverStatus = (int)sqlDataReader["server_status"],
+                    charStatus = status,
+                    charStatusDuration = (long)sqlDataReader["char_status_duration"]
+                };
+            }
+
+            await conn.CloseAsync();
+            return robberyLog;
+        }
+
+        public async Task fetchRobberyResult(int characterId, int robberyId)
+        {
+            var currentCharacterRobbery = await getCurrentRobbery(characterId);
+            var currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+            if (currentCharacterRobbery.endDate <= currentTime)
+            {
+                var character = await _characterService.getCharacter(characterId);
+                character.currentHealth = currentCharacterRobbery.endHealth;
+                character.currentStamina = currentCharacterRobbery.endStamina;
+                character.status = currentCharacterRobbery.charStatus;
+                character.statusTime = currentCharacterRobbery.charStatusDuration;
+                character.statusChanged = currentTime;
+            }
         }
 
         public async Task startRobbery(int robberyId, string senderAddress, int[] participants)

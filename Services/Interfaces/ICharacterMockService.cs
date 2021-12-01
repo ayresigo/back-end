@@ -15,5 +15,6 @@ namespace back_end.Services.Interfaces
         Task<bool> addCharacter(CharacterInputModel character, string address);
         Task<Character> createCharacter();
         public Task editStatus(int id, int status, long duration, long start);
+        public Task<CharacterStatusViewModel> getStatus(int id);
     }
 }

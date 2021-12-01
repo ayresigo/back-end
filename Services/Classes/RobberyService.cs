@@ -31,5 +31,11 @@ namespace back_end.Services.Classes
         {
             await _robberyRepo.addLogs(log);
         }
+
+        public async Task<List<RobberyLogViewModel>> getCharacterRobberyLogs(int characterId)
+        {
+            var log = await _robberyRepo.getCharacterRobberyLogs(characterId);
+            return log;
+        }
     }
 }
