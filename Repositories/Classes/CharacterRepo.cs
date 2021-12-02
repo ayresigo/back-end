@@ -49,18 +49,11 @@ namespace back_end.Repositories.Classes
             await conn.CloseAsync();
         }
 
-        public async Task<CharacterStatusViewModel> getStatus (int id)
+        public async Task<CharacterStatusViewModel> getStatus(int id)
         {
             CharacterStatusViewModel status = null;
             var query = $"SELECT * FROM `character_status` WHERE `id` = '{id}'";
-            var closeConnection = false;
-
-            if(conn.State != System.Data.ConnectionState.Open)
-            {
-                closeConnection = true;
-                await conn.OpenAsync();
-            }            
-
+            await conn.OpenAsync();
             MySqlCommand sqlCommand = new MySqlCommand(query, conn);
             MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
 
@@ -71,15 +64,13 @@ namespace back_end.Repositories.Classes
                     id = (int)sqlDataReader["id"],
                     name = (string)sqlDataReader["name"],
                     icon = (string)sqlDataReader["icon"],
-                    icon_color = (string)sqlDataReader["icon_color"],
-                    background_color = (string)sqlDataReader["background_color"],
+                    iconColor = (string)sqlDataReader["icon_color"],
+                    bgColor = (string)sqlDataReader["background_color"],
                     description = (string)sqlDataReader["description"],
                 };
             }
 
-            if(closeConnection)
-                await conn.CloseAsync();
-
+            await conn.CloseAsync();
             return status;
         }
 
@@ -87,7 +78,10 @@ namespace back_end.Repositories.Classes
         {
 
             CharacterViewModel character = null;
-            var query = $"SELECT * FROM `criminals` WHERE `id` = '{id}'";
+            var query = $"SELECT * FROM `criminals` " +
+                $"INNER JOIN `character_status` " +
+                $"ON `criminals`.`fk_status_id` = `character_status`.`status_id` " +
+                $"WHERE `criminals`.`id` = {id}";
 
             await conn.OpenAsync();
 
@@ -96,7 +90,16 @@ namespace back_end.Repositories.Classes
 
             while (sqlDataReader.Read())
             {
-                var status = await getStatus((int)sqlDataReader["fk_status_id"]);
+                var status = new CharacterStatusViewModel
+                {
+                    id = (int)sqlDataReader["fk_status_id"],
+                    name = (string)sqlDataReader["status_name"],
+                    icon = (string)sqlDataReader["status_icon"],
+                    iconColor = (string)sqlDataReader["status_icon_color"],
+                    bgColor = (string)sqlDataReader["status_background_color"],
+                    description = (string)sqlDataReader["status_description"],
+                };
+
                 character = new CharacterViewModel
                 {
                     id = (int)sqlDataReader["id"],
@@ -126,7 +129,10 @@ namespace back_end.Repositories.Classes
         public async Task<List<CharacterViewModel>> getCharacters(int id)
         {
             var characters = new List<CharacterViewModel>();
-            var query = $"SELECT * FROM `criminals` WHERE `fk_owner_id`='{id}'";
+            var query = $"SELECT * FROM `criminals` " +
+                $"INNER JOIN `character_status` " +
+                $"ON `criminals`.`fk_status_id` = `character_status`.`status_id` " +
+                $"WHERE `criminals`.`fk_owner_id` = {id}";
 
             await conn.OpenAsync();
             MySqlCommand sqlCommand = new MySqlCommand(query, conn);
@@ -134,7 +140,16 @@ namespace back_end.Repositories.Classes
 
             while (sqlDataReader.Read())
             {
-                var status = await getStatus((int)sqlDataReader["fk_status_id"]);
+                var status = new CharacterStatusViewModel
+                {
+                    id = (int)sqlDataReader["fk_status_id"],
+                    name = (string)sqlDataReader["status_name"],
+                    icon = (string)sqlDataReader["status_icon"],
+                    iconColor = (string)sqlDataReader["status_icon_color"],
+                    bgColor = (string)sqlDataReader["status_background_color"],
+                    description = (string)sqlDataReader["status_description"],
+                };
+
                 characters.Add(new CharacterViewModel
                 {
                     id = (int)sqlDataReader["id"],
@@ -153,7 +168,7 @@ namespace back_end.Repositories.Classes
                     alignment = (string)sqlDataReader["alignment"],
                     status = status,
                     statusTime = (long)sqlDataReader["statusTime"],
-                    statusChanged = (long)sqlDataReader["statusChanged"]
+                    statusChanged = (long)sqlDataReader["statusChanged"],
                 });
             }
 

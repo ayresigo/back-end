@@ -66,6 +66,7 @@ namespace back_end.Controllers.v1
                     endDate = DateTimeOffset.Now.ToUnixTimeSeconds() + robbery.time,
                     endHealth = character.health,
                     endMoney = robbery.reward,
+                    
                     //robberyStatus = 1,
                     //serverStatus = 1
                 };

@@ -11,7 +11,7 @@ namespace back_end.ViewModel
         public string name { get; set; }
         public string description { get; set; }
         public string icon { get; set; }
-        public string icon_color { get; set; }
-        public string background_color { get; set; }        
+        public string iconColor { get; set; }
+        public string bgColor { get; set; }        
     }
 }
