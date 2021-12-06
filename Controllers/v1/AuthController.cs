@@ -35,14 +35,9 @@ namespace back_end.Controllers.v1
         [HttpGet("checkToken")]
         public async Task<ActionResult> retrieveToken([FromQuery]string token)
         {
-            TokenInputModel _token = new TokenInputModel
-            {
-                Token = token
-            };
-         
             try
             {
-                var data = await _authService.retrieveToken(_token);
+                var data = await _authService.retrieveToken(token);
                 return Ok(data);
             }
             catch (TokenExpiredException err)

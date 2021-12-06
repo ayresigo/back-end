@@ -79,7 +79,7 @@ namespace back_end.Services
         }
 
 
-        public Task<TokenDataViewModel> retrieveToken(TokenInputModel token)
+        public Task<TokenDataViewModel> retrieveToken(string token)
         {            
             try
             {
@@ -87,7 +87,7 @@ namespace back_end.Services
                      .WithAlgorithm(new HMACSHA256Algorithm()) // symmetric
                      .WithSecret(_secret)
                      .MustVerifySignature()
-                     .Decode(token.Token);
+                     .Decode(token);
                 return Task.FromResult(JsonConvert.DeserializeObject<TokenDataViewModel>(json));
             }
             catch (TokenExpiredException)

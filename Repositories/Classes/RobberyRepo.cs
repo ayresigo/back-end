@@ -1,4 +1,6 @@
-﻿using back_end.Repositories.Interface;
+﻿using back_end.InputModel;
+using back_end.Repositories.Interface;
+using back_end.Services;
 using back_end.Services.Interfaces;
 using back_end.ViewModel;
 using Microsoft.Extensions.Configuration;
@@ -14,11 +16,13 @@ namespace back_end.Repositories.Classes
     {
         private readonly MySqlConnection conn;
         private readonly ICharacterMockService _characterService;
+        private readonly IAuthService _authService;
 
-        public RobberyRepo(IConfiguration config, ICharacterMockService characterService)
+        public RobberyRepo(IConfiguration config, ICharacterMockService characterService, IAuthService authService)
         {
             conn = new MySqlConnection(config.GetConnectionString("Default"));
             _characterService = characterService;
+            _authService = authService;
         }
 
         public async Task addLogs(RobberyLogViewModel log)
@@ -57,12 +61,15 @@ namespace back_end.Repositories.Classes
                     image = (string)sqlDataReader["image"],
                     description = (string)sqlDataReader["description"],
                     difficulty = (int)sqlDataReader["difficulty"],
-                    time = (int)sqlDataReader["time"],
+                    time = (int)sqlDataReader["duration"],
                     power = (int)sqlDataReader["power"],
                     reward = (int)sqlDataReader["reward"],
                     stamina = (int)sqlDataReader["stamina"],
                     minPart = (int)sqlDataReader["minPart"],
                     maxPart = (int)sqlDataReader["maxPart"],
+                    ambush = (int)sqlDataReader["ambush_risk"],
+                    prison = (int)sqlDataReader["prison_risk"],
+                    death = (int)sqlDataReader["death_risk"],
                     status = (int)sqlDataReader["status"]
                 });
             }
@@ -90,12 +97,15 @@ namespace back_end.Repositories.Classes
                     image = (string)sqlDataReader["image"],
                     description = (string)sqlDataReader["description"],
                     difficulty = (int)sqlDataReader["difficulty"],
-                    time = (int)sqlDataReader["time"],
+                    time = (int)sqlDataReader["duration"],
                     power = (int)sqlDataReader["power"],
                     reward = (int)sqlDataReader["reward"],
                     stamina = (int)sqlDataReader["stamina"],
                     minPart = (int)sqlDataReader["minPart"],
                     maxPart = (int)sqlDataReader["maxPart"],
+                    ambush = (int)sqlDataReader["ambush_risk"],
+                    prison = (int)sqlDataReader["prison_risk"],
+                    death = (int)sqlDataReader["death_risk"],
                     status = (int)sqlDataReader["status"]
                 };
             }
@@ -195,10 +205,31 @@ namespace back_end.Repositories.Classes
             }
         }
 
-        public async Task startRobbery(int robberyId, string senderAddress, int[] participants)
+        public async Task startRobbery(StartRobberyInputModel input)
         {
-            RobberyViewModel robbery = await getRobbery(robberyId);
-            DateTimeOffset.Now.ToUnixTimeSeconds();
+            var tokenInfo = await _authService.retrieveToken(input.token);
+            RobberyViewModel robbery = await getRobbery(input.robberyId);
+            var currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+            // check token
+            // check if participants belong to owner
+
+            if (input.participants.Length >= robbery.minPart && input.participants.Length <= robbery.maxPart)
+            {
+
+                //check if have any item
+                //private int prison = new Random();
+                
+                // throw new robbery
+                foreach (var character in input.participants)
+                {
+                    await _characterService.editStatus(character.characterId, 2, 120);
+                    await _characterService.editStamina(character.characterId, -robbery.stamina);
+                }
+            } else
+            {
+                throw new Exception("Quantidade de participantes excede limite minimo ou máximo ("+input.participants.Length+")");
+            }
         }
     }
 }

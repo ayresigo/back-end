@@ -72,11 +72,30 @@ namespace back_end.Controllers.v1
 
         }
 
-        [HttpPatch("editCharacterStatus")]
+        [HttpPatch("setHealth")]
+        public async Task editHealth([FromQuery] int characterId, int amount)
+        {
+            await _characterMockService.editHealth(characterId, amount);
+        }
+
+        [HttpPatch("setStamina")]
+        public async Task editStamina([FromQuery] int characterId, int amount)
+        {
+            await _characterMockService.editStamina(characterId, amount);
+        }
+
+        [HttpPatch("setStatus")]
         public async Task editStatus([FromQuery] int characterId, int status = 1, long duration = -1)
         {
             var start = await _timeService.getTime();
             await _characterMockService.editStatus(characterId, status, duration, start);
+        }
+
+        [HttpPatch("fetchCharacters")]
+        public async Task<List<CharacterViewModel>> fetchCharacterStatus(int id)
+        {
+            var characters = await _characterMockService.fetchCharacterStatus(id);
+            return characters;
         }
 
         [HttpGet("createCharacter")]

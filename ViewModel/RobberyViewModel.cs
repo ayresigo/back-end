@@ -18,6 +18,9 @@ namespace back_end.ViewModel
         public int reward { get; set; }
         public int minPart { get; set; }
         public int maxPart { get; set; }
+        public int ambush { get; set; }
+        public int prison { get; set; }
+        public int death { get; set; }
         public int status { get; set; }
     }
 }

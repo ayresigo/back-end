@@ -1,4 +1,5 @@
 ﻿using back_end.ViewModel;
+using back_end.InputModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace back_end.Services.Interfaces
         public Task<List<RobberyViewModel>> getRobberies(int status);
         public Task addLogs(RobberyLogViewModel log);
         public Task<List<RobberyLogViewModel>> getCharacterRobberyLogs(int characterId);
+        public Task startRobbery(StartRobberyInputModel input);
     }
 }

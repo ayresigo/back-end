@@ -135,11 +135,25 @@ namespace back_end.Services
         {
             await _characterRepo.editStatus(id, status, duration, start);
         }
+        public async Task editHealth(int id, int amount)
+        {
+            await _characterRepo.editHealth(id, amount);
+        }  
+        public async Task editStamina(int id, int amount)
+        {
+            await _characterRepo.editStamina(id, amount);
+        }
 
         public async Task<CharacterStatusViewModel> getStatus(int id)
         {
             var status = await _characterRepo.getStatus(id);
             return status;
+        }
+
+        public async Task<List<CharacterViewModel>> fetchCharacterStatus(int id)
+        {
+            var characters = await _characterRepo.fetchCharacterStatus(id);
+            return characters;
         }
     }
 }

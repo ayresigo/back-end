@@ -39,16 +39,6 @@ namespace back_end.Repositories.Classes
             conn?.Dispose();
         }
 
-        public async Task editStatus(int id, int status = 1, long duration = -1, long start = 0)
-        {
-            var query = $"UPDATE `criminals` SET `status`='{status}',`statusTime`='{duration}',`statusChanged`='{start}' WHERE id='{id}'";
-
-            await conn.OpenAsync();
-            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
-            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
-            await conn.CloseAsync();
-        }
-
         public async Task<CharacterStatusViewModel> getStatus(int id)
         {
             CharacterStatusViewModel status = null;
@@ -126,6 +116,59 @@ namespace back_end.Repositories.Classes
             return character;
         }
 
+        public async Task<List<CharacterStatusViewModel>> getStatus()
+        {
+            var query = $"SELECT * FROM `character_status` WHERE 1";
+            var status = new List<CharacterStatusViewModel>();
+
+            await conn.OpenAsync();
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+
+            while (sqlDataReader.Read())
+            {
+  
+                status.Add(new CharacterStatusViewModel
+                {
+                    id = (int)sqlDataReader["status_id"],
+                    name = (string)sqlDataReader["status_name"],
+                    icon = (string)sqlDataReader["status_icon"],
+                    iconColor = (string)sqlDataReader["status_icon_color"],
+                    bgColor = (string)sqlDataReader["status_background_color"],
+                    description = (string)sqlDataReader["status_description"],
+                });
+            }
+
+            await conn.CloseAsync();
+            return status;
+        }
+
+        public async Task<List<CharacterViewModel>> fetchCharacterStatus(int id)
+        {
+            var characters = new List<CharacterViewModel>();
+            characters = await getCharacters(id);
+            var status = await getStatus();
+
+            foreach (var character in characters)
+            {
+                if (character.status.id != 1)
+                {
+                    var currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+                    if (currentTime - character.statusChanged >= character.statusTime)
+                    {
+                        character.status = status[0];
+                        var query = $"UPDATE `criminals` SET `fk_status_id`='{character.status.id}',`statusTime`='{0}',`statusChanged`='{currentTime}' WHERE id='{character.id}'";
+
+                        await conn.OpenAsync();
+                        MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+                        MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+                        await conn.CloseAsync();                        
+                    }
+                }
+            }
+            return characters;
+        }
+
         public async Task<List<CharacterViewModel>> getCharacters(int id)
         {
             var characters = new List<CharacterViewModel>();
@@ -174,6 +217,38 @@ namespace back_end.Repositories.Classes
 
             await conn.CloseAsync();
             return characters;
+        }
+
+        public async Task editHealth(int id, int amount)
+        {
+            var query = $"UPDATE `criminals` SET `currentHealth`= currentHealth + {amount} WHERE id='{id}'";
+            await conn.OpenAsync();
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+            await conn.CloseAsync();
+        }
+        public async Task editStamina(int id, int amount)
+        {
+            var query = $"UPDATE `criminals` SET `currentStamina`= currentStamina + {amount} WHERE id='{id}'";
+            await conn.OpenAsync();
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+            await conn.CloseAsync();
+        }
+
+        public async Task editStatus(int id, int status = 1, long duration = -1, long start = 0)
+        {
+            long time = 0;
+            if (start == 0)
+                time = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+
+            var query = $"UPDATE `criminals` SET `fk_status_id`='{status}',`statusTime`='{duration}',`statusChanged`='{time}' WHERE id='{id}'";
+
+            await conn.OpenAsync();
+            MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+            MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+            await conn.CloseAsync();
         }
     }
 }

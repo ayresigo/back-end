@@ -1,4 +1,5 @@
-﻿using back_end.Repositories.Interface;
+﻿using back_end.InputModel;
+using back_end.Repositories.Interface;
 using back_end.Services.Interfaces;
 using back_end.ViewModel;
 using System;
@@ -15,6 +16,11 @@ namespace back_end.Services.Classes
         public RobberyService(IRobberyRepo robberyRepo)
         {
             _robberyRepo = robberyRepo;
+        }
+
+        public async Task startRobbery(StartRobberyInputModel input)
+        {
+            await _robberyRepo.startRobbery(input);
         }
 
         public async Task<List<RobberyViewModel>> getRobberies(int status)
