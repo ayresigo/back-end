@@ -225,6 +225,7 @@ namespace back_end.Repositories.Classes
                 {
                     await _characterService.editStatus(character.characterId, 2, 120);
                     await _characterService.editStamina(character.characterId, -robbery.stamina);
+                        
                 }
             } else
             {
