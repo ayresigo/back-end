@@ -1,3 +1,7 @@
+using cryminals.Repositories.Classes;
+using cryminals.Repositories.Interfaces;
+using cryminals.Services.Classes;
+using cryminals.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +33,9 @@ namespace cryminals
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddScoped<ITimeService, TimeService>();
+            services.AddScoped<ICheckInputs, CheckInputs>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
             services.AddCors(options =>
             {

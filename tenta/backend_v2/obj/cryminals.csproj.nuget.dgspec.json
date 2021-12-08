@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\cryminals_v2\\backend\\cryminals.csproj": {}
+    "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\cryminals_v2\\backend\\cryminals.csproj": {
+    "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\cryminals_v2\\backend\\cryminals.csproj",
+        "projectUniqueName": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj",
         "projectName": "cryminals",
-        "projectPath": "D:\\Projects\\cryminals_v2\\backend\\cryminals.csproj",
+        "projectPath": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj",
         "packagesPath": "C:\\Users\\igor\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\cryminals_v2\\backend\\obj\\",
+        "outputPath": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\igor\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,26 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "JWT": {
+              "target": "Package",
+              "version": "[8.7.0, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.27, )"
+            },
+            "Nethereum.Signer": {
+              "target": "Package",
+              "version": "[4.1.1, )"
+            },
+            "Nethereum.Util": {
+              "target": "Package",
+              "version": "[4.1.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
