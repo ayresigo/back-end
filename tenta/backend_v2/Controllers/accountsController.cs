@@ -31,7 +31,7 @@ namespace cryminals.Controllers
             
         }
 
-        [HttpGet("getAccount")]
+        [HttpGet("getMyAccount")]
         public IActionResult getMyAccount(string token)
         {
             try
