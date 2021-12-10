@@ -30,16 +30,73 @@ namespace cryminals.Repositories.Classes
             conn?.Dispose();
         }
 
-        public async Task<AccountViewModel> getMyAccount(string token)
+        public async Task<AccountViewModel> fetchAccount(string token)
         {
             try
             {
                 var tokenData = _authService.retrieveTokenData(token);
                 return await getAccount(tokenData.address);
-            } catch (Exception err)
+            }
+            catch (Exception err)
             {
                 throw new Exception(err.Message);
             }
+        }
+
+        public async Task<List<CharacterViewModel>> fetchCharacters(string token)
+        {
+            try
+            {
+                var account = _authService.retrieveTokenData(token);
+                var characters = new List<CharacterViewModel>();
+                var query = $"SELECT * FROM `characters` INNER JOIN `character_status`  " +
+                    $"ON `characters`.`fk_status_id` = `character_status`.`id` " +
+                    $"WHERE `characters`.`fk_owner_address` = '{account.address}'";
+
+                await conn.OpenAsync();
+                MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+                MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+
+                while (sqlDataReader.Read())
+                {
+                    var status = new CharacterStatusViewModel
+                    {
+                        Id = (int)sqlDataReader["id"],
+                        Name = (string)sqlDataReader["name"],
+                        Icon = (string)sqlDataReader["icon"],
+                        IconColor = (string)sqlDataReader["iconColor"],
+                        BgColor = (string)sqlDataReader["bgColor"],
+                        Description = (string)sqlDataReader["description"],
+                        statusDuration = (int)sqlDataReader["status_duration"],
+                        statusChanged = (long)sqlDataReader["status_changed"],
+                    };
+
+                    characters.Add(new CharacterViewModel
+                    {
+                        Owner = (string)sqlDataReader["fk_owner_address"],
+                        Name = (string)sqlDataReader["name"],
+                        Gender = (string)sqlDataReader["gender"],
+                        Seed = (long)sqlDataReader["seed"],
+                        Rarity = (string)sqlDataReader["rarity"],
+                        Power = (int)sqlDataReader["power"],
+                        Health = (int)sqlDataReader["health"],
+                        CurrentHealth = (int)sqlDataReader["currentHealth"],
+                        Stamina = (int)sqlDataReader["stamina"],
+                        CurrentStamina = (int)sqlDataReader["currentStamina"],
+                        Job = (string)sqlDataReader["job"],
+                        Affiliation = (string)sqlDataReader["affiliation"],
+                        Status = status,
+                    });
+                }
+
+                await conn.CloseAsync();
+                return characters;
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+
         }
 
         public async Task<AccountViewModel> getAccount(string address)
@@ -58,7 +115,6 @@ namespace cryminals.Repositories.Classes
                 {
                     account = new AccountViewModel
                     {
-                        Id = (int)sqlDataReader["Id"],
                         Address = (string)sqlDataReader["Address"],
                         Username = (string)sqlDataReader["Username"],
                         Avatar = (string)sqlDataReader["Avatar"],
@@ -69,6 +125,11 @@ namespace cryminals.Repositories.Classes
                 return account;
             }
             else throw new InvalidInputException("address");
+        }
+
+        public Task<List<CharacterViewModel>> getCharacters(string address)
+        {
+            throw new NotImplementedException();
         }
     }
 }

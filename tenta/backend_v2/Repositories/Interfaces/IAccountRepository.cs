@@ -9,6 +9,8 @@ namespace cryminals.Repositories.Interfaces
     public interface IAccountRepository : IDisposable
     {
         Task<AccountViewModel> getAccount(string address);
-        Task<AccountViewModel> getMyAccount(string token);
+        Task<AccountViewModel> fetchAccount(string token);
+        Task<List<CharacterViewModel>> getCharacters(string address);
+        Task<List<CharacterViewModel>> fetchCharacters(string token);
     }
 }

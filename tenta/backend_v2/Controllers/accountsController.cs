@@ -1,4 +1,5 @@
-﻿using cryminals.Repositories.Interfaces;
+﻿using cryminals.Models.ViewModels;
+using cryminals.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace cryminals.Controllers
         {
             try
             {
-                return Ok(_accountRepo.getAccount(address));
+                return Ok(_accountRepo.getAccount(address).Result);
             } catch (Exception err)
             {
                 return BadRequest(err.Message);
@@ -31,12 +32,27 @@ namespace cryminals.Controllers
             
         }
 
-        [HttpGet("getMyAccount")]
-        public IActionResult getMyAccount(string token)
+        [HttpGet("fetchAccount")]
+        public IActionResult fetchAccount(string token)
         {
             try
             {
-                return Ok(_accountRepo.getMyAccount(token));
+                return Ok(_accountRepo.fetchAccount(token).Result);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+
+        }
+
+        [HttpGet("fetchCharacters")]
+        public async Task<ActionResult<IEnumerable<AccountViewModel>>> fetchCharacters(string token)
+        {
+            try
+            {
+                var result = await _accountRepo.fetchCharacters(token);
+                return Ok(result);
             }
             catch (Exception err)
             {

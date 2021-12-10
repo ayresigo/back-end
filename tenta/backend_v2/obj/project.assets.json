@@ -1336,11 +1336,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj",
+      "projectUniqueName": "D:\\Projects\\Cryminals\\back-end\\back-end\\tenta\\backend_v2\\cryminals.csproj",
       "projectName": "cryminals",
-      "projectPath": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj",
+      "projectPath": "D:\\Projects\\Cryminals\\back-end\\back-end\\tenta\\backend_v2\\cryminals.csproj",
       "packagesPath": "C:\\Users\\igor\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\obj\\",
+      "outputPath": "D:\\Projects\\Cryminals\\back-end\\back-end\\tenta\\backend_v2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\igor\\AppData\\Roaming\\NuGet\\NuGet.Config",
