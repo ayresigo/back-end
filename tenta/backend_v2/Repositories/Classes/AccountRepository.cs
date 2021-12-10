@@ -118,6 +118,10 @@ namespace cryminals.Repositories.Classes
                         Address = (string)sqlDataReader["Address"],
                         Username = (string)sqlDataReader["Username"],
                         Avatar = (string)sqlDataReader["Avatar"],
+                        Money = (int)sqlDataReader["Money"],
+                        Respect = (int)sqlDataReader["Respect"],
+                        Status = (int)sqlDataReader["Status"],
+                        CreationDate = (long)sqlDataReader["CreationDate"],
                     };
                 }
 
