@@ -50,7 +50,7 @@ namespace cryminals.Repositories.Classes
                 var account = _authService.retrieveTokenData(token);
                 var characters = new List<CharacterViewModel>();
                 var query = $"SELECT * FROM `characters` INNER JOIN `character_status`  " +
-                    $"ON `characters`.`fk_status_id` = `character_status`.`id` " +
+                    $"ON `characters`.`fk_status_id` = `character_status`.`status_id` " +
                     $"WHERE `characters`.`fk_owner_address` = '{account.address}'";
 
                 await conn.OpenAsync();
@@ -61,8 +61,8 @@ namespace cryminals.Repositories.Classes
                 {
                     var status = new CharacterStatusViewModel
                     {
-                        Id = (int)sqlDataReader["id"],
-                        Name = (string)sqlDataReader["name"],
+                        Id = (int)sqlDataReader["status_id"],
+                        Name = (string)sqlDataReader["status_name"],
                         Icon = (string)sqlDataReader["icon"],
                         IconColor = (string)sqlDataReader["iconColor"],
                         BgColor = (string)sqlDataReader["bgColor"],
@@ -73,6 +73,7 @@ namespace cryminals.Repositories.Classes
 
                     characters.Add(new CharacterViewModel
                     {
+                        Id = (int)sqlDataReader["id"],
                         Owner = (string)sqlDataReader["fk_owner_address"],
                         Name = (string)sqlDataReader["name"],
                         Gender = (string)sqlDataReader["gender"],
