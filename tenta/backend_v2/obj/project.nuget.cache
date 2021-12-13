@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1bB6LhYAEiIQ7SIAJgH7LE/cM/g3jsAwU1fnmHJzSvQt7QtSLP1zW6aY/d45dnTwQ4GWM/pZwGWrqwtId5FtlA==",
+  "dgSpecHash": "6/pAwbACT3LFPK/h5Sv46ppJvIn0LdPp+r5Nzz4l+fzxT53ruuY8qF+H27Ahyy6xLi0NcNhufXkaIn7pW3jWTg==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Cryminals\\back-end\\back-end\\tenta\\backend_v2\\cryminals.csproj",
+  "projectFilePath": "D:\\Projects\\GitHub\\back-end\\tenta\\backend_v2\\cryminals.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\igor\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\igor\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",

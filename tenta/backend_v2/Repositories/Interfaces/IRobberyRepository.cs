@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Interfaces
 {
-    public interface IAccountRepository : IDisposable
+    public interface IRobberyRepository : IDisposable
     {
-        Task<AccountViewModel> getAccount(string address);
-        Task<AccountViewModel> fetchAccount(string token);
+        public Task<List<RobberyViewModel>> getRobberies(int status);
+        public Task<RobberyViewModel> getRobbery(int id);
     }
 }

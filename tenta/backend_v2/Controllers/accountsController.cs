@@ -13,31 +13,31 @@ namespace cryminals.Controllers
     public class accountsController : ControllerBase
     {
         public IAccountRepository _accountRepo;
+        public ICharacterRepository _characterRepo;
+        public IItemRepository _itemRepository;
 
-        public accountsController(IAccountRepository accountRepo)
+        public accountsController(IAccountRepository accountRepo, ICharacterRepository characterRepository, IItemRepository itemRepository)
         {
             _accountRepo = accountRepo;
+            _characterRepo = characterRepository;
+            _itemRepository = itemRepository;
         }
 
         [HttpGet("getAccount")]
-        public IActionResult getAccount(string address)
+        public async Task<IActionResult> getAccount(string address)
         {
             try
             {
-                return Ok(_accountRepo.getAccount(address).Result);
-            } catch (Exception err)
-            {
-                return BadRequest(err.Message);
-            }
-            
-        }
+                var account = await _accountRepo.getAccount(address);
+                if (account != null)
+                {
+                    return Ok(account);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
 
-        [HttpGet("fetchAccount")]
-        public IActionResult fetchAccount(string token)
-        {
-            try
-            {
-                return Ok(_accountRepo.fetchAccount(token).Result);
             }
             catch (Exception err)
             {
@@ -46,13 +46,66 @@ namespace cryminals.Controllers
 
         }
 
-        [HttpGet("fetchCharacters")]
-        public async Task<ActionResult<IEnumerable<AccountViewModel>>> fetchCharacters(string token)
+        [HttpGet("fetchAccount")]
+        public async Task<IActionResult> fetchAccount(string token)
         {
             try
             {
-                var result = await _accountRepo.fetchCharacters(token);
-                return Ok(result);
+                var account = await _accountRepo.fetchAccount(token);
+                if (account != null)
+                {
+                    return Ok(account);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
+
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+
+        }
+        [HttpGet("fetchItems")]
+        public async Task<IActionResult> fetchItems(string token)
+        {
+            try
+            {
+                var result = await _itemRepository.fetchItems(token);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
+
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+
+        }
+        [HttpGet("fetchCharacters")]
+        //<IEnumerable<CharacterViewModel>>
+        public async Task<IActionResult> fetchCharacters(string token)
+        {
+            try
+            {
+                var result = await _characterRepo.fetchCharacters(token);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
+
             }
             catch (Exception err)
             {

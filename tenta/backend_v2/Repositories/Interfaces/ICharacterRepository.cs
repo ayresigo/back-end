@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Interfaces
 {
-    interface ICharacterRepository : IDisposable
+    public interface ICharacterRepository : IDisposable
     {
-        Task<CharacterViewModel> getCharacter(int id);
+        public Task<CharacterViewModel> getCharacter(int id);
+        public Task<List<CharacterViewModel>> fetchCharacters(string token);
+        public Task<List<CharacterViewModel>> getCharacters(string address);
     }
 }

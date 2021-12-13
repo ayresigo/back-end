@@ -36,6 +36,9 @@ namespace cryminals
             services.AddScoped<ICheckInputs, CheckInputs>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IRobberyRepository, RobberyRepository>();
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddCors(options =>
             {
