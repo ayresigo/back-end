@@ -1,6 +1,7 @@
 ﻿using cryminals.Exceptions;
 using cryminals.Models.InputModels;
 using cryminals.Models.ViewModels;
+using cryminals.Repositories.Interfaces;
 using cryminals.Services.Interfaces;
 using JWT;
 using JWT.Algorithms;
@@ -23,10 +24,24 @@ namespace cryminals.Services.Classes
         private readonly string SECRET_KEY = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
 
         private readonly ICheckInputs _checkInputs;
+        private readonly IAuthRepository _authRepo;
 
-        public AuthService(ICheckInputs checkInputs)
+        public AuthService(ICheckInputs checkInputs, IAuthRepository authRepo)
         {
             _checkInputs = checkInputs;
+            _authRepo = authRepo;
+        }
+
+        public async Task<bool> checkOwnership(string address, int[] ids)
+        {
+            try
+            {
+                return await _authRepo.checkOwnership(address, ids);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
         }
 
         public string generateToken(SignatureInputModel data)
@@ -53,7 +68,7 @@ namespace cryminals.Services.Classes
                 }
                 else throw new InvalidInputException("unknown");
             }
-            catch(InvalidInputException err)
+            catch (InvalidInputException err)
             {
                 throw new InvalidInputException(err.Message);
             }
@@ -82,7 +97,7 @@ namespace cryminals.Services.Classes
                         return tokenData;
                     }
                     else throw new TokenExpiredException("Token expired.");
-                    
+
                 }
                 else throw new InvalidInputException("token");
             }
@@ -118,7 +133,7 @@ namespace cryminals.Services.Classes
             }
             catch (InvalidInputException err)
             {
-                throw new InvalidInputException(err.Message );
+                throw new InvalidInputException(err.Message);
             }
             catch (Exception)
             {

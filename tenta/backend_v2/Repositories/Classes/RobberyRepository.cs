@@ -1,4 +1,5 @@
 ﻿using cryminals.Exceptions;
+using cryminals.Models.InputModels;
 using cryminals.Models.ViewModels;
 using cryminals.Repositories.Interfaces;
 using cryminals.Services.Interfaces;
@@ -15,17 +16,53 @@ namespace cryminals.Repositories.Classes
     {
         private readonly MySqlConnection conn;
         private readonly ICheckInputs _checkInputs;
+        private readonly IAuthService _authService;
+        private readonly IAccountRepository _accountRepository;
 
-        public RobberyRepository(IConfiguration config, ICheckInputs checkInputs)
+        public RobberyRepository(IConfiguration config, ICheckInputs checkInputs, IAuthService authService)
         {
             conn = new MySqlConnection(config.GetConnectionString("Default"));
             _checkInputs = checkInputs;
+            _authService = authService;
         }
 
         public void Dispose()
         {
             conn?.Close();
             conn?.Dispose();
+        }
+
+        public async Task<string> startRobbery(StartRobberyInputModel data)
+        {
+            // Verificar robbery, status do personagem e calcular as odds.
+            try
+            {
+                if (_checkInputs.checkToken(data.Token) && _checkInputs.checkInt(data.RobberyId)) // valida input do token e do id da robbery
+                {
+                    for (int i = 0; i < data.Participants.Length; i++)
+                    {
+                        if (!_checkInputs.checkInt(data.Participants[i])) throw new InvalidInputException("Invalid Input"); // valida input dos ids dos participantes
+                    }
+                    var account = _authService.retrieveTokenData(data.Token);
+                    var robbery = await getRobbery(data.RobberyId);
+                    if (data.Participants.Length >= robbery.MinParticipants && data.Participants.Length <= robbery.MaxParticipants) // valida se o numero de participantes está dentro dos limites da robbery
+                    {
+                        if (await _authService.checkOwnership(account.address, data.Participants)) // verifica se os personagens são possuídos pelo caller (deveria ser feito pela blockchain)
+                        {
+                            return "Roubo iniciado!";
+                        }
+                        else throw new Exception("Character ownership verification failed");
+                    }
+                    else throw new Exception("Number of participants is not permitted");
+                }
+                else throw new InvalidInputException("Invalid input");
+                return "Roubo não iniciado!";
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+
         }
 
         public async Task<List<RobberyViewModel>> getRobberies(int status = 1)

@@ -35,6 +35,7 @@ namespace cryminals
             //services.AddScoped<ITimeService, TimeService>();
             services.AddScoped<ICheckInputs, CheckInputs>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IRobberyRepository, RobberyRepository>();
             services.AddScoped<ICharacterRepository, CharacterRepository>();

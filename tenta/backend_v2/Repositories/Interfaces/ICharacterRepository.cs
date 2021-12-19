@@ -11,5 +11,6 @@ namespace cryminals.Repositories.Interfaces
         public Task<CharacterViewModel> getCharacter(int id);
         public Task<List<CharacterViewModel>> fetchCharacters(string token);
         public Task<List<CharacterViewModel>> getCharacters(string address);
+        public Task<string> getOwner(int id);
     }
 }

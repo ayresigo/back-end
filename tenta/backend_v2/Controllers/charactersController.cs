@@ -39,6 +39,27 @@ namespace cryminals.Controllers
                 return BadRequest(err.Message);
             }
         }
+        
+        [HttpGet("getOwner")]
+        public async Task<IActionResult> getOwner(int id)
+        {
+            try
+            {
+                var address = await _characterRepo.getOwner(id);
+                if (address != null)
+                {
+                    return Ok(address);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
 
         [HttpGet("getCharacters")]
         public async Task<IActionResult> getCharacters(string address)

@@ -57,5 +57,26 @@ namespace cryminals.Controllers
                 return BadRequest(err.Message);
             }
         }
+
+        [HttpPost("checkOwnership")]
+        public async Task<IActionResult> checkOwnership(string address, int[] ids)
+        {
+            try
+            {
+                if (await _authService.checkOwnership(address, ids))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+
+        }
     }
 }

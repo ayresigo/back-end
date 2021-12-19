@@ -1,4 +1,5 @@
-﻿using cryminals.Models.ViewModels;
+﻿using cryminals.Models.InputModels;
+using cryminals.Models.ViewModels;
 using cryminals.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,6 +18,18 @@ namespace cryminals.Controllers
         public robberiesController(IRobberyRepository robberyRepository)
         {
             _robberyRepository = robberyRepository;
+        }
+
+        [HttpPost("startRobbery")]
+        public async Task<IActionResult> startRobbery(StartRobberyInputModel data)
+        {
+            try
+            {
+                return Ok(await _robberyRepository.startRobbery(data));
+            } catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
         }
 
         [HttpGet("getRobbery")]

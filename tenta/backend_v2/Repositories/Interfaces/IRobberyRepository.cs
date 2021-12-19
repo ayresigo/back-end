@@ -1,4 +1,5 @@
-﻿using cryminals.Models.ViewModels;
+﻿using cryminals.Models.InputModels;
+using cryminals.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace cryminals.Repositories.Interfaces
     {
         public Task<List<RobberyViewModel>> getRobberies(int status);
         public Task<RobberyViewModel> getRobbery(int id);
+        public Task<string> startRobbery(StartRobberyInputModel data);
     }
 }

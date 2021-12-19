@@ -42,8 +42,6 @@ namespace cryminals.Repositories.Classes
             }
         }
 
-
-
         public async Task<AccountViewModel> getAccount(string address)
         {
             if (_checkInputs.checkAddress(address))

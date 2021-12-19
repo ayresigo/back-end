@@ -12,5 +12,6 @@ namespace cryminals.Services.Interfaces
         string generateToken(SignatureInputModel data);
         TokenDataViewModel retrieveTokenData(string token);
         bool validateSignature(SignatureInputModel signature);
+        public Task<bool> checkOwnership(string address, int[] ids);
     }
 }

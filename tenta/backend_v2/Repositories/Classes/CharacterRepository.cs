@@ -30,6 +30,32 @@ namespace cryminals.Repositories.Classes
             conn?.Dispose();
         }
 
+        public async Task<string> getOwner(int id)
+        {
+            var isOwner = false;
+            if (_checkInputs.checkInt(id))
+            {
+
+                var query = $"SELECT `fk_owner_address` FROM `characters` WHERE `id` = '{id}'";
+
+                await conn.OpenAsync();
+                MySqlCommand sqlCommand = new MySqlCommand(query, conn);
+                MySqlDataReader sqlDataReader = (MySqlDataReader)await sqlCommand.ExecuteReaderAsync();
+
+                while (sqlDataReader.Read())
+                {
+                    var _address = (string)sqlDataReader["fk_owner_address"];
+                    return _address;
+                }
+                await conn.CloseAsync();
+                return null;
+            }
+            else
+            {
+                throw new InvalidInputException("address");
+            }
+        }
+
         public async Task<List<CharacterViewModel>> fetchCharacters(string token)
         {
             try
