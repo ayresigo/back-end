@@ -1,10 +1,7 @@
-
-using back_end.Repositories;
-using back_end.Repositories.Classes;
-using back_end.Repositories.Interface;
-using back_end.Services;
-using back_end.Services.Classes;
-using back_end.Services.Interfaces;
+using cryminals.Repositories.Classes;
+using cryminals.Repositories.Interfaces;
+using cryminals.Services.Classes;
+using cryminals.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -20,10 +17,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
 
-namespace back_end
+namespace cryminals
 {
     public class Startup
     {
@@ -34,22 +29,18 @@ namespace back_end
 
         public IConfiguration Configuration { get; }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {            
-            services.AddScoped<IUserAccountRepo, UserAccountRepo>();
-            services.AddScoped<IAccountRepo, AccountRepo>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<ICharacterMockService, CharacterMockService>();
-            services.AddScoped<ICharacterRepo, CharacterRepo>();
+        {
+            //services.AddScoped<ITimeService, TimeService>();
             services.AddScoped<ICheckInputs, CheckInputs>();
-            services.AddScoped<IRobberyService, RobberyService>();
-            services.AddScoped<IRobberyRepo, RobberyRepo>();
-            services.AddScoped<ITimeService, TimeService>();
-
-            //services.AddScoped<IUserAccountRepo, UserAccountRepo>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IRobberyRepository, RobberyRepository>();
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IRobberyEventRepository, RobberyEventRepository>();
 
             services.AddCors(options =>
             {
@@ -64,10 +55,10 @@ namespace back_end
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "back_end", Version = "v1" });
-                var basePath = AppDomain.CurrentDomain.BaseDirectory;
-                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-                c.IncludeXmlComments(Path.Combine(basePath, fileName));
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "cryminals", Version = "v1" });
+                //var basePath = AppDomain.CurrentDomain.BaseDirectory;
+                //var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+                //c.IncludeXmlComments(Path.Combine(basePath, fileName));
             });
         }
 
@@ -78,11 +69,11 @@ namespace back_end
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "back_end v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "cryminals v1"));
             }
 
-            // app.UseMiddleware<ExceptionMiddleware>();
             app.UseCors("dev");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

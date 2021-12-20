@@ -1,17 +1,17 @@
-﻿using back_end.InputModel;
-using back_end.ViewModel;
+﻿using cryminals.Models.InputModels;
+using cryminals.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace back_end.Services
+namespace cryminals.Services.Interfaces
 {
-    public interface IAuthService 
+    public interface IAuthService
     {
-        Task<TokenViewModel> generateToken(TokenDataInputModel data, string secret);
-        Task<TokenDataViewModel> retrieveToken(string token);
-        Task<bool> checkSignature(SignatureInputModel request);
-
+        string generateToken(SignatureInputModel data);
+        TokenDataViewModel retrieveTokenData(string token);
+        bool validateSignature(SignatureInputModel signature);
+        public Task<bool> checkOwnership(string address, int[] ids);
     }
 }
