@@ -1,6 +1,6 @@
 ﻿using cryminals.Models.InputModels;
 using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
+using cryminals.Repositories.Classes;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

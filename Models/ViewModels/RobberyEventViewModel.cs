@@ -16,3 +16,5 @@ namespace cryminals.Models.ViewModels
         public long Claimed { get; set; }
     }
 }
+
+

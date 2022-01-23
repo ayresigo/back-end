@@ -1,5 +1,5 @@
 ﻿using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
+using cryminals.Repositories.Classes;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,49 @@ namespace cryminals.Controllers
                 return BadRequest(err.Message);
             }
         }
-        
+
+        [HttpGet("getCharacterQtd")]
+        public async Task<IActionResult> getCharacterQtd(string address)
+        {
+            try
+            {
+                var qtd = await _characterRepo.getCharacterQtd(address);
+                if (qtd != null || qtd != 0)
+                {
+                    return Ok(qtd);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
+
+        [HttpGet("getCharacterStatus")]
+        public async Task<IActionResult> getCharacterStatus(int id)
+        {
+            try
+            {
+                var characterStatus = await _characterRepo.getCharacterStatus(id);
+                if (characterStatus != null)
+                {
+                    return Ok(characterStatus);
+                }
+                else
+                {
+                    return NotFound("Not found!");
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
+
         [HttpGet("getOwner")]
         public async Task<IActionResult> getOwner(int id)
         {
@@ -73,8 +115,8 @@ namespace cryminals.Controllers
             {
                 return BadRequest(err.Message);
             }
-        } 
-        
+        }
+
         [HttpPatch("editCurrentHealth")]
         public async Task<IActionResult> editCurrentHealth(int id, int amount)
         {
@@ -87,8 +129,8 @@ namespace cryminals.Controllers
             {
                 return BadRequest(err.Message);
             }
-        } 
-        
+        }
+
         [HttpPatch("editStatus")]
         public async Task<IActionResult> editStatus(int id, int status, int duration)
         {

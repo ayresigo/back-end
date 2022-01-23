@@ -95,7 +95,7 @@ namespace cryminals.Controllers
         [HttpGet("time/getUnixTime")]
         public IActionResult getUnixTime()
         {
-            return Ok(DateTimeOffset.Now.ToUnixTimeSeconds());
+            return Ok(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
         }
     }
 }

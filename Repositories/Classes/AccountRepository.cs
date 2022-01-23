@@ -1,6 +1,5 @@
 ﻿using cryminals.Exceptions;
 using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
 using cryminals.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -11,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Classes
 {
+    public interface IAccountRepository : IDisposable
+    {
+        Task<AccountViewModel> getAccount(string address);
+        Task<AccountViewModel> fetchAccount(string token);
+    }
     public class AccountRepository : IAccountRepository
     {
         private readonly MySqlConnection conn;

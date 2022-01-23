@@ -1,7 +1,8 @@
 ﻿using cryminals.Exceptions;
 using cryminals.Models.InputModels;
 using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
+using cryminals.Repositories.Classes;
+ 
 using cryminals.Services.Interfaces;
 using JWT;
 using JWT.Algorithms;
@@ -60,8 +61,8 @@ namespace cryminals.Services.Classes
                         { "address", data.Address },
                         { "signature", data.Signature },
                         { "message", data.Message },
-                        { "iat", DateTimeOffset.Now.ToUnixTimeSeconds() },
-                        { "exp", DateTimeOffset.Now.ToUnixTimeSeconds() + 86400 }
+                        { "iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
+                        { "exp", DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 86400 }
                     };
 
                     return encoder.Encode(payload, SECRET_KEY);
@@ -92,7 +93,7 @@ namespace cryminals.Services.Classes
                      .Decode(token);
 
                     var tokenData = JsonConvert.DeserializeObject<TokenDataViewModel>(json);
-                    if (tokenData.exp > DateTimeOffset.Now.ToUnixTimeSeconds())
+                    if (tokenData.exp > DateTimeOffset.UtcNow.ToUnixTimeSeconds())
                     {
                         return tokenData;
                     }

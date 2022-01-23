@@ -1,5 +1,5 @@
 ﻿using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
+using cryminals.Repositories.Classes;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ namespace cryminals.Controllers
             }
 
         }
-       
+
 
         [HttpGet("fetchItems")]
         public async Task<IActionResult> fetchItems(string token)
@@ -94,11 +94,11 @@ namespace cryminals.Controllers
         }
         [HttpGet("fetchCharacters")]
         //<IEnumerable<CharacterViewModel>>
-        public async Task<IActionResult> fetchCharacters(string token)
+        public async Task<IActionResult> fetchCharacters(string token, int page = 1, int itemsPerPage = 9)
         {
             try
             {
-                var result = await _characterRepo.fetchCharacters(token);
+                var result = await _characterRepo.fetchCharacters(token, page, itemsPerPage);
                 if (result != null)
                 {
                     return Ok(result);

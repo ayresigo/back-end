@@ -1,6 +1,6 @@
 ﻿using cryminals.Exceptions;
 using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
+ 
 using cryminals.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Classes
 {
+    public interface IItemRepository : IDisposable
+    {
+        public Task<ItemDBViewModel> getItemDB(int id);
+        public Task<List<ItemViewModel>> fetchItems(string token);
+    }
     public class ItemRepository : IItemRepository
     {
         private readonly MySqlConnection conn;

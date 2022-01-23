@@ -18,6 +18,7 @@ namespace cryminals.Models.ViewModels
         public int CurrentHealth { get; set; }
         public int Stamina { get; set; }
         public int CurrentStamina { get; set; }
+        public int StaminaRatio { get; set; }
         public string Job { get; set; }
         public string Affiliation { get; set; }
         public CharacterStatusViewModel Status { get; set; }

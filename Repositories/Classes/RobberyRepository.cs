@@ -1,7 +1,6 @@
 ﻿using cryminals.Exceptions;
 using cryminals.Models.InputModels;
 using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
 using cryminals.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -12,6 +11,14 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Classes
 {
+    public interface IRobberyRepository : IDisposable
+    {
+        public Task<List<RobberyViewModel>> getRobberies(int status);
+        public Task<RobberyViewModel> getRobbery(int id);
+        public Task<string> startRobbery(StartRobberyInputModel data);
+        public Task<List<RobberyEventViewModel>> getRobberyEvent(int characterId, int claimed, int status);
+        public Task endRobberyEvent(int robberyEventId, int status);
+    }
     public class RobberyRepository : IRobberyRepository
     {
         private readonly MySqlConnection conn;
@@ -19,7 +26,7 @@ namespace cryminals.Repositories.Classes
         private readonly IAuthService _authService;
         private readonly ICharacterRepository _characterRepository;
         private readonly IRobberyEventRepository _robberyEventRepository;
-        
+
 
         public RobberyRepository(IConfiguration config, ICheckInputs checkInputs, IAuthService authService, ICharacterRepository characterRepository, IRobberyEventRepository robberyEventRepository)
         {
@@ -137,7 +144,7 @@ namespace cryminals.Repositories.Classes
                             for (int i = 0; i < data.Participants.Length; i++)
                             {
                                 var character = await _characterRepository.getCharacter(data.Participants[i]);
-                                if (character.CurrentStamina >= robbery.Stamina && character.Status.Id == 1) characters.Add(character); else throw new Exception("Character " + character.Id + " do not have enough stamina or is busy"); // verifica se cada personagem possui stamina suficiente e status idle
+                                if (_characterRepository.calculateCurrentStamina(character) >= robbery.Stamina && character.Status.Id == 1) characters.Add(character); else throw new Exception("Character " + character.Id + " do not have enough stamina or is busy"); // verifica se cada personagem possui stamina suficiente e status idle
                             }
                             if (characters.Count == data.Participants.Length)
                             {

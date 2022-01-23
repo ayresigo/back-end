@@ -1,5 +1,4 @@
 ﻿using cryminals.Exceptions;
-using cryminals.Repositories.Interfaces;
 using cryminals.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -10,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Classes
 {
+    public interface IAuthRepository : IDisposable
+    {
+        public Task<bool> checkOwnership(string address, int[] ids);
+    }
     public class AuthRepository : IAuthRepository
     {
         private readonly MySqlConnection conn;

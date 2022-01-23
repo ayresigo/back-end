@@ -1,5 +1,5 @@
 ﻿using cryminals.Models.ViewModels;
-using cryminals.Repositories.Interfaces;
+ 
 using cryminals.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace cryminals.Repositories.Classes
 {
+    public interface IRobberyEventRepository : IDisposable
+    {
+        public Task startRobbery(CharacterViewModel character, RobberyViewModel robbery);
+    }
     public class RobberyEventRepository : IRobberyEventRepository
     {
         private readonly MySqlConnection conn;
@@ -38,7 +42,7 @@ namespace cryminals.Repositories.Classes
         {
             await _characterRepository.editCurrentStat(character.Id, "stamina", character.CurrentStamina - robbery.Stamina); // aplica - stamina e inicia a robbery
             await _characterRepository.changeStatus(character.Id, 2, robbery.Duration); // edita o status do personagem para trabalhando
-            var query = $"INSERT INTO `robbery_events`(`fk_robbery_id`,`fk_character_id`,`start`,`duration`) VALUES ({robbery.Id},{character.Id},{DateTimeOffset.Now.ToUnixTimeSeconds()},{robbery.Duration})";
+            var query = $"INSERT INTO `robbery_events`(`fk_robbery_id`,`fk_character_id`,`start`,`duration`) VALUES ({robbery.Id},{character.Id},{DateTimeOffset.UtcNow.ToUnixTimeSeconds()},{robbery.Duration})";
 
             await conn.OpenAsync();
             MySqlCommand sqlCommand = new MySqlCommand(query, conn);
